@@ -9,8 +9,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "CloudBox",
-  description: "CloudBox - The only storage solution you need!"
+  title: "StoreIt",
+  description: "StoreIt - The only storage solution you need!"
 };
 
 export default function RootLayout({
@@ -20,6 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <link rel="icon" href="/favicon.ico" sizes="any" />
       <body className={`${poppins.variable} font-poppins antialiased`}>
         {children}
       </body>

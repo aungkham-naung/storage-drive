@@ -14,9 +14,20 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
-
 import React, { useState } from "react";
 import { createAccount } from "@/lib/actions/user.actions";
+import OTPModal from "./OTPModal";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
 
 type FormType = "sign-in" | "sign-up";
 
@@ -158,7 +169,9 @@ const AuthForm = ({ type }: { type: FormType }) => {
         </form>
       </Form>
 
-      {/* Add OTP */}
+      {accountId && (
+        <OTPModal email={form.getValues("email")} accountId={accountId} />
+      )}
     </>
   );
 };

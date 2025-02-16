@@ -6,12 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-
-interface Props {
-  fullName: string;
-  email: string;
-  avatar: string;
-}
+import { Props } from "./props";
 
 const Sidebar = ({ fullName, email, avatar }: Props) => {
   const pathname = usePathname();

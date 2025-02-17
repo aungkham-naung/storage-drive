@@ -1,3 +1,5 @@
+import { Toaster } from "@/components/ui/toaster";
+
 import React from "react";
 import Sidebar from "../components/Sidebar";
 import MobileNavigation from "../components/MobileNavigation";
@@ -14,10 +16,12 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
     <main className="flex h-screen">
       <Sidebar fullName={fullName} email={email} avatar={avatar} />
       <section className="flex h-full flex-1 flex-col">
-        <MobileNavigation fullName={fullName} email={email} avatar={avatar} />
-        <Header />
+        <MobileNavigation {...currentUser} />
+        <Header userId={currentUser.$id} accountId={currentUser.accountId} />
         <div className="main-content">{children}</div>
       </section>
+
+      <Toaster />
     </main>
   );
 };

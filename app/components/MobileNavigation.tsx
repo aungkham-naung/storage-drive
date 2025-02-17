@@ -12,7 +12,6 @@ import React, { use } from "react";
 import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Props } from "./props";
 import { Separator } from "@radix-ui/react-separator";
 import { navItems } from "@/constants";
 import Link from "next/link";
@@ -21,7 +20,21 @@ import { Button } from "@/components/ui/button";
 import FileUploader from "./FileUploader";
 import { signOut } from "@/lib/actions/user.actions";
 
-const MobileNavigation = ({ fullName, email, avatar }: Props) => {
+interface Props {
+  fullName: string;
+  email: string;
+  avatar: string;
+  $id: string;
+  accountId: string;
+}
+
+const MobileNavigation = ({
+  fullName,
+  email,
+  avatar,
+  $id: ownerId,
+  accountId
+}: Props) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -83,7 +96,8 @@ const MobileNavigation = ({ fullName, email, avatar }: Props) => {
             </nav>
             <Separator className="my-5 bg-light-200/20" />
             <div className="flex flex-col justify-between gap-5 pb-5">
-              <FileUploader />
+              <FileUploader ownerId={ownerId} accountId={accountId} />
+
               <Button type="submit" className="mobile-sign-out-button">
                 <Image
                   src="/assets/icons/logout.svg"

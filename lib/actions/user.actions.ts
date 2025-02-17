@@ -7,6 +7,8 @@ import { ID } from "node-appwrite";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
 import { avatarPlaceholderUrl } from "@/constants";
+import { redirect } from "next/navigation";
+import { error } from "console";
 /*
 
 Sign In & Sign Up Workflow
@@ -71,7 +73,7 @@ export const createAccount = async ({
         accountId
       }
     );
-    //   console.log("User created:", newUser);
+    // console.log("User created:", newUser);
     // } else {
     //   console.log("User already exists in DB:", existingUser);
   }
@@ -119,5 +121,30 @@ export const getCurrentUser = async () => {
     return parseStringify(user.documents[0]);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const signOut = async () => {
+  try {
+    const { account } = await createSessionClient();
+    await account.deleteSession("current");
+    (await cookies()).delete("appwrite-session");
+  } catch (error) {
+    handleError(error, "Failed to sign out");
+  } finally {
+    redirect("/sign-in");
+  }
+};
+
+export const signIn = async ({ email }: { email: string }) => {
+  try {
+    const existingUser = await getUserByEmail(email);
+    if (existingUser) {
+      await sendEmailOTP({ email });
+      return parseStringify({ accountId: existingUser.accountId });
+    }
+    return parseStringify({ accountId: null, error: "User not found" });
+  } catch (error) {
+    handleError(error, "Failed to sign in");
   }
 };

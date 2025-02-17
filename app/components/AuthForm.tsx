@@ -17,18 +17,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { createAccount } from "@/lib/actions/user.actions";
 import OTPModal from "./OTPModal";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from "@/components/ui/alert-dialog";
-
+import { signIn } from "@/lib/actions/user.actions";
 type FormType = "sign-in" | "sign-up";
 
 // Form Schema -- layout what form should take in (error checking)
@@ -67,10 +56,13 @@ const AuthForm = ({ type }: { type: FormType }) => {
     setErrorMessage("");
 
     try {
-      const user = await createAccount({
-        fullName: values.fullName || "",
-        email: values.email
-      });
+      const user =
+        type === "sign-up"
+          ? await createAccount({
+              fullName: values.fullName || "",
+              email: values.email
+            })
+          : await signIn({ email: values.email });
 
       setAccountId(user.accountId);
     } catch {

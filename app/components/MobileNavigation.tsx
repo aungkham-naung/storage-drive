@@ -19,6 +19,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import FileUploader from "./FileUploader";
+import { signOut } from "@/lib/actions/user.actions";
 
 const MobileNavigation = ({ fullName, email, avatar }: Props) => {
   const [open, setOpen] = useState(false);
@@ -89,6 +90,7 @@ const MobileNavigation = ({ fullName, email, avatar }: Props) => {
                   alt="logout"
                   width={24}
                   height={24}
+                  onClick={async () => await signOut()}
                 />
                 <p>Sign out</p>
               </Button>

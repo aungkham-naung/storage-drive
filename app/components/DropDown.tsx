@@ -27,6 +27,8 @@ import Link from "next/link";
 import { constructDownloadUrl } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { renameFile } from "@/lib/actions/file.actions";
+import { usePathname } from "next/navigation";
 
 const DropDown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,7 +37,9 @@ const DropDown = ({ file }: { file: Models.Document }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [action, setAction] = useState<ActionType | null>(null);
 
-  const closeAllModals = () => {
+  const path = usePathname();
+
+  const closeAllModal = () => {
     setIsModalOpen(false);
     setIsDropDownOpen(false);
     setAction(null);
@@ -43,7 +47,33 @@ const DropDown = ({ file }: { file: Models.Document }) => {
     //Set email to false (sharing)
   };
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    if (!action) return;
+    setIsLoading(true);
+    let success = false;
+
+    const actions = {
+      rename: async () => {
+        const result = await renameFile({
+          fileId: file.$id,
+          name,
+          extension: file.extension,
+          path
+        });
+
+        if (result) {
+          file.name = name;
+        }
+
+        return result;
+      }
+    };
+
+    success = await actions[action.value as keyof typeof actions]();
+    if (success) closeAllModal();
+
+    setIsLoading(false);
+  };
 
   const renderDialogContent = () => {
     if (!action) return null;
@@ -65,12 +95,11 @@ const DropDown = ({ file }: { file: Models.Document }) => {
         </DialogHeader>
         {["rename", "delete", "share"].includes(value) && (
           <DialogFooter className="flex flex-col gap-3 md:flex-row">
-            <Button onClick={closeAllModals} className="modal-cancel-button">
+            <Button onClick={closeAllModal} className="modal-cancel-button">
               Cancel
             </Button>
             <Button onClick={handleSubmit} className="modal-submit-button">
-              <p className="capitalize">{value}</p>
-              {isLoading && (
+              {isLoading ? (
                 <Image
                   src="/assets/icons/loader.svg"
                   alt="Loader"
@@ -78,6 +107,8 @@ const DropDown = ({ file }: { file: Models.Document }) => {
                   height={24}
                   className="animate-spin"
                 />
+              ) : (
+                <p className="capitalize">{value}</p>
               )}
             </Button>
           </DialogFooter>

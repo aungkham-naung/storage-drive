@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -39,7 +39,20 @@ const DropDown = ({ file }: { file: Models.Document }) => {
   const [name, setName] = useState(file.name);
   const [isLoading, setIsLoading] = useState(false);
   const [action, setAction] = useState<ActionType | null>(null);
-  const [emails, setEmails] = useState<string[]>([]);
+  const [emails, setEmails] = useState<string[]>(file.users || []);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await getCurrentUser();
+      if (user) setCurrentUserId(user.accountId);
+    };
+
+    fetchUser();
+  }, []);
+
+  const isOwner = currentUserId === file.ownerId;
+  // console.log("isOwner", isOwner);
 
   const path = usePathname();
 
@@ -58,6 +71,7 @@ const DropDown = ({ file }: { file: Models.Document }) => {
 
     const actions = {
       rename: async () => {
+        if (!isOwner) return false;
         const result = await renameFile({
           fileId: file.$id,
           name,
@@ -71,7 +85,21 @@ const DropDown = ({ file }: { file: Models.Document }) => {
 
         return result;
       },
-      share: async () => updateFileUsers({ fileId: file.$id, emails, path })
+      share: async () => {
+        if (!isOwner) return false;
+
+        const updatedEmails = Array.from(new Set([...emails, ...file.users]));
+
+        const result = await updateFileUsers({
+          fileId: file.$id,
+          emails: updatedEmails,
+          path
+        });
+
+        if (result) setEmails(updatedEmails);
+
+        return result;
+      }
     };
 
     success = await actions[action.value as keyof typeof actions]();
@@ -90,6 +118,7 @@ const DropDown = ({ file }: { file: Models.Document }) => {
     });
 
     if (success) setEmails(updatedEmails);
+    closeAllModal();
   };
 
   const renderDialogContent = () => {
@@ -170,10 +199,13 @@ const DropDown = ({ file }: { file: Models.Document }) => {
                   ["rename", "share", "delete", "details"].includes(
                     actionItem.value
                   )
-                ) {
+                )
                   setIsModalOpen(true);
-                }
               }}
+              disabled={
+                !isOwner &&
+                ["rename", "share", "delete"].includes(actionItem.value)
+              }
             >
               {actionItem.value === "download" ? (
                 <Link

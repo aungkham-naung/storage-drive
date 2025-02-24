@@ -66,7 +66,6 @@ const DropDown = ({ file }: { file: Models.Document }) => {
     setIsDropDownOpen(false);
     setAction(null);
     setName(file.name);
-    //Set email to false (sharing)
   };
 
   const handleSubmit = async () => {

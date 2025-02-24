@@ -34,3 +34,12 @@ declare interface DeleteFileProps {
   bucketFileId: string;
   path: string;
 }
+
+declare type FileType = "document" | "image" | "video" | "audio" | "other";
+
+declare interface GetFilesProps {
+  types: FileType[];
+  searchText?: string;
+  sort?: string;
+  limit?: number;
+}

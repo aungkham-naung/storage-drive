@@ -98,13 +98,16 @@ const MobileNavigation = ({
             <div className="flex flex-col justify-between gap-5 pb-5">
               <FileUploader ownerId={ownerId} accountId={accountId} />
 
-              <Button type="submit" className="mobile-sign-out-button">
+              <Button
+                type="submit"
+                className="mobile-sign-out-button"
+                onClick={async () => await signOut()}
+              >
                 <Image
                   src="/assets/icons/logout.svg"
                   alt="logout"
                   width={24}
                   height={24}
-                  onClick={async () => await signOut()}
                 />
                 <p>Sign out</p>
               </Button>

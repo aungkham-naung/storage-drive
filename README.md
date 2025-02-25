@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Introduction 🚀
 
-## Getting Started
+**StoreIt** - a storage platform designed to help individuals store, manage, backup, and share files securely across all devices.
 
-First, run the development server:
+## Technology Stack 🛠️
+
+- React
+- Next.js
+- Appwrite
+- TailwindCSS
+- ShadCN
+- TypeScript
+
+## Features 💫
+
+✅ ** User Authentication with Appwrite **: Provide sign-up, login, and logout functionalities through Appwrite's authentication system.
+
+✅ ** File Uploads **: Effortlessly upload multiple files, supporting various file types such as documents, images, videos, audio, and more.
+
+✅ ** View and Manage Files **: Enable easy file browsing with options to modify files.
+
+✅ ** Download Files **: Allows users to download uploaded files for an instant access to essential documents.
+
+✅ ** Share Files **: Users can seamlessly share their upload files with others to support collaboration and easy access to important documents.
+
+✅ ** Sort Files **: Organize files efficiently by sorting them by date, name, or size, for a smooth browsing experience.
+
+✅ ** Global Search **: Users can quickly locate uploaded documents and shared content across the platform.
+
+## Quick Start 🏁
+
+Follow these steps to set up the project locally on your machine.
+
+**Prerequisites**
+
+Make sure you have the following installed on your machine:
+
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/en)
+- [npm](https://www.npmjs.com/) (Node Package Manager)
+
+**Cloning the Repository**
+
+```bash
+git clone https://github.com/aungkham-naung/storage-drive.git
+cd storage-drive
+```
+
+**Installation**
+
+Install the project dependencies using npm:
+
+```bash
+npm install
+```
+
+**Set Up Environment Variables**
+
+Create a new file named `.env.local` in the root of your project and add the following content:
+
+```env
+NEXT_PUBLIC_APPWRITE_ENDPOINT="https://cloud.appwrite.io/v1"
+NEXT_PUBLIC_APPWRITE_PROJECT=""
+NEXT_PUBLIC_APPWRITE_DATABASE=""
+NEXT_PUBLIC_APPWRITE_USERS_COLLECTION=""
+NEXT_PUBLIC_APPWRITE_FILES_COLLECTION=""
+NEXT_PUBLIC_APPWRITE_BUCKET=""
+NEXT_APPWRITE_SECRET=""
+```
+
+Replace the values with your actual Appwrite credentials. You can obtain these credentials by signing up &
+creating a new project on the [Appwrite website](https://appwrite.io/).
+
+**Running the Project**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
